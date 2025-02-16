@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adjective/Noun Universal Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            display: flex;
+        }
+        iframe {
+            width: 50%;
+            height: 80vh;
+            border: none;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            const adjectives = ["happy", "sad", "fast", "slow"];
+            const nouns = ["dog", "cat", "car", "bicycle"];
+            
+            const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+            const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+            const randomPhrase = randomAdjective + " " + randomNoun;
+
+            document.getElementById("randomPhrase").innerText = randomPhrase;
+            document.getElementById("ddgLink").href = `https://duckduckgo.com/?ia=web&q=${randomPhrase}`;
+            document.getElementById("wikipediaLink").href = `https://en.wikipedia.org/w/index.php?fulltext=0&title=Special%3ASearch&ns0=1&search=${randomPhrase}`;
+            document.getElementById("domainLink").href = `https://domainr.com/?q=${randomPhrase}`;
+            document.getElementById("wikipediaIframe").src = `https://en.wikipedia.org/w/index.php?fulltext=0&title=Special%3ASearch&ns0=1&search=${randomPhrase}`;
+            document.getElementById("bingIframe").src = `https://www.bing.com/search?q=${randomPhrase}`;
+        }
+    </script>
+
+
+
+
+</head>
+<body>
+    <h1>Adjective/Noun Universal Search</h1>
+    <p id="randomPhrase"></p>
+    <p>
+        <a id="ddgLink" target="_blank">Web Search</a> |
+        <a id="wikipediaLink" target="_blank">Wikipedia Search</a> |
+        <a id="domainLink" target="_blank">Domain Search</a>
+    </p>
+    <div class="container">
+        <iframe id="wikipediaIframe"></iframe>
+        <iframe id="bingIframe"></iframe>
+    </div>
+</body>
+<footer>made by wgx | code on github</footer>
+</html>
+
+
+
+
