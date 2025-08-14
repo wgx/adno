@@ -4,113 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ad/no: Procrastination Rabbit Hole Finder</title>
+    <!-- Tailwind CSS for modern, responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Using a custom font from Google Fonts for a better look */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
         body {
-            text-align: center;
-            margin: 40px 20px;
-            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            background-color: #fdfdfd;
-            color: #333;
-        }
-
-        .phrase-container {
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-        }
-
-        #randomPhrase {
-            font-weight: bold;
-            font-size: 1.5em;
-            background-color: #f0f0f0;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-
-        #generateBtn {
-            padding: 8px 15px;
-            font-size: 1em;
-            font-family: inherit;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-
-        #generateBtn:hover {
-            background-color: #f5f5f5;
-        }
-
-        .links {
-            margin-bottom: 30px;
-        }
-
-        .iframe-container {
-            display: flex;
-            gap: 10px; /* Adds space between iframes */
-        }
-
-        iframe {
-            width: 50%;
-            height: 75vh;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        footer {
-            margin-top: 30px;
-            font-size: 0.9em;
-            color: #888;
-        }
-
-        a {
-            color: #0077cc;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
+            font-family: 'Space Mono', monospace;
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800">
 
-    <h1>AD/NO</h1>
-    <p>Find your next "rabbit hole" by combining a random adjective and noun.</p>
-    
-    <div class="phrase-container">
-        <span id="randomPhrase"></span>
-        <button id="generateBtn">Generate Another!</button>
+    <div class="container mx-auto px-4 py-8 md:py-12 text-center">
+
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900">AD/NO</h1>
+        <p class="mt-2 text-base md:text-lg text-gray-600">Find your next "rabbit hole" by combining a random adjective and noun.</p>
+        
+        <!-- Phrase and Button Container -->
+        <div class="my-6 md:my-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <span id="randomPhrase" class="text-xl md:text-2xl font-bold bg-gray-200 text-gray-900 px-4 py-2 rounded-lg shadow-sm"></span>
+            <button id="generateBtn" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-300 rounded-lg shadow-sm transition-all active:scale-95">Generate Another!</button>
+        </div>
+
+        <!-- External Links -->
+        <p class="my-6 text-base text-blue-600">
+            <a id="ddgLink" target="_blank" rel="noopener noreferrer" class="hover:underline">DuckDuckGo Web Search</a> |
+            <a id="domainLink" target="_blank" rel="noopener noreferrer" class="hover:underline">Domain Search</a>
+        </p>
+        
+        <!-- Iframe Container: Stacks vertically by default, goes to horizontal on medium screens and up -->
+        <div class="flex flex-col md:flex-row gap-4">
+            <iframe 
+                id="wikipediaIframe" 
+                title="Wikipedia Search Results"
+                class="w-full h-[75vh] border border-gray-300 rounded-lg shadow-sm"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation">
+            </iframe>
+            <iframe 
+                id="bingIframe" 
+                title="Bing Search Results"
+                class="w-full h-[75vh] border border-gray-300 rounded-lg shadow-sm"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation">
+            </iframe>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-8 text-sm text-gray-500">
+            made by <a href="https://willgrant.org" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">wgx</a> | 
+            <a href="https://github.com/wgx/adno" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">code on github</a> |
+            <a href="https://ko-fi.com/wllgrnt" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">buy me a coffee</a> | 
+            <span class="herenow">1 user here now</span>
+            <script src="https://wgx.github.io/herenow/herenow.min.js" defer></script>
+        </footer>
+
     </div>
-
-    <p class="links">
-        <a id="ddgLink" target="_blank" rel="noopener noreferrer">DuckDuckGo Web Search</a> |
-        <a id="domainLink" target="_blank" rel="noopener noreferrer">Domain Search</a>
-    </p>
-    
-    <div class="iframe-container">
-        <iframe 
-            id="wikipediaIframe" 
-            title="Wikipedia Search Results"
-            sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation">
-        </iframe>
-        <iframe 
-            id="bingIframe" 
-            title="Bing Search Results"
-            sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation">
-        </iframe>
-    </div>
-
-    <footer>
-        made by <a href="https://willgrant.org" target="_blank" rel="noopener noreferrer">wgx</a> | 
-        <a href="https://github.com/wgx/adno" target="_blank" rel="noopener noreferrer">code on github</a> |
-        <a href="https://ko-fi.com/wllgrnt" target="_blank" rel="noopener noreferrer">buy me a coffee</a> | 
-        <span class="herenow">1 user here now</span>
-        <script src="https://wgx.github.io/herenow/herenow.min.js" defer></script>
-    </footer>
 
     <script>
         // NOTE: These lists are very long. 
@@ -123,7 +71,6 @@
         const generateBtn = document.getElementById("generateBtn");
 
         const ddgLink = document.getElementById("ddgLink");
-        const wikipediaLink = document.getElementById("wikipediaLink");
         const domainLink = document.getElementById("domainLink");
 
         const wikipediaIframe = document.getElementById("wikipediaIframe");
@@ -162,5 +109,3 @@
 
 </body>
 </html>
-
-
