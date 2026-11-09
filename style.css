@@ -16,16 +16,18 @@ button { cursor: pointer; }
 .wordmark { font-weight: 900; font-size: 1.55rem; letter-spacing: -.08em; text-decoration: none; }
 .wordmark span { color: #d65b37; }
 .tagline, .source-note { color: #626c60; font-size: .88rem; }
-.intro { text-align: center; padding: 70px 0 48px; }
+.intro { text-align: center; padding: 28px 0 24px; }
 .eyebrow { color: #ad4b2e; font-size: .72rem; font-weight: 800; letter-spacing: .14em; }
-h1 { font-family: Georgia, serif; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.04; letter-spacing: -.04em; margin: 14px 0; }
-.intro > p:not(.eyebrow) { color: #626c60; }
-.prompt { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 14px; margin: 32px auto 20px; }
+h1 { font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.04; letter-spacing: -.04em; margin: 0 0 10px; }
+.intro > p:not(.eyebrow) { color: #626c60; margin: 0; }
+.prompt { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 14px; margin: 20px auto 16px; }
 .prompt-label { font-size: .7rem; font-weight: 800; letter-spacing: .1em; color: #6a7568; }
 #randomPhrase { font-family: Georgia, serif; font-size: clamp(1.3rem, 3vw, 1.8rem); padding: 12px 20px; background: #e8ebdd; border-radius: 6px; overflow-wrap: anywhere; }
 .primary { border: 0; border-radius: 6px; padding: 15px 20px; background: #263d2e; color: white; font-weight: 700; }
 .primary:hover { background: #3c5944; }
 .primary span { margin-left: 8px; }
+.search-button { border: 1px solid #263d2e; border-radius: 6px; padding: 14px 19px; color: #263d2e; font-weight: 700; text-decoration: none; }
+.search-button:hover { background: #e8ebdd; color: #263d2e; }
 .controls { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; font-size: .88rem; }
 select { max-width: 100%; padding: 8px 30px 8px 10px; border: 1px solid #c9cfc1; background: white; border-radius: 4px; color: inherit; }
 .controls a { margin-left: 8px; }
@@ -45,6 +47,7 @@ h2 { font-family: Georgia, serif; font-size: 1.8rem; letter-spacing: -.025em; ma
 .card h3 a { text-decoration: none; }
 .card h3 a:hover { text-decoration: underline; }
 .card-description { color: #626c60; line-height: 1.55; font-size: .9rem; overflow-wrap: anywhere; }
+.card-match { color: #52614f; font-size: .8rem; line-height: 1.4; margin: 0 0 12px; overflow-wrap: anywhere; }
 .card-actions { display: flex; gap: 16px; align-items: center; margin-top: auto; padding-top: 12px; }
 .save-button { border: 1px solid #c9cfc1; background: #fff; border-radius: 4px; padding: 6px 12px; color: #263d2e; }
 .save-button[aria-pressed="true"] { background: #e8ebdd; }
@@ -62,8 +65,8 @@ footer { border-top: 1px solid #dcded3; padding: 24px 0 35px; color: #687267; fo
 @media (max-width: 700px) {
     .shell { padding: 0 20px; }
     .tagline { display: none; }
-    .intro { padding: 48px 0 36px; }
-    .prompt { flex-direction: column; }
+    .intro { padding: 24px 0 20px; }
+    .prompt { gap: 10px 12px; }
     .section-heading { align-items: start; flex-direction: column; gap: 10px; }
     .result-grid { grid-template-columns: 1fr; }
     .collections { grid-template-columns: 1fr; gap: 25px; }

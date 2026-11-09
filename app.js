@@ -3,6 +3,7 @@ const SOURCES = {
     wikipedia: {
         name: "Wikipedia",
         description: "Articles",
+        searchDomain: "en.wikipedia.org",
         url: phrase => `https://en.wikipedia.org/w/api.php?${new URLSearchParams({
             action: "query", generator: "search", gsrsearch: phrase, gsrlimit: "3",
             prop: "extracts|pageimages", exintro: "1", explaintext: "1", exsentences: "2",
@@ -23,6 +24,7 @@ const SOURCES = {
     books: {
         name: "Open Library",
         description: "Books",
+        searchDomain: "openlibrary.org",
         url: phrase => `https://openlibrary.org/search.json?${new URLSearchParams({
             q: phrase, limit: "3", fields: "key,title,author_name,first_publish_year,cover_i"
         })}`,
@@ -38,6 +40,7 @@ const SOURCES = {
     art: {
         name: "Art Institute of Chicago",
         description: "Artworks",
+        searchDomain: "artic.edu",
         url: phrase => `https://api.artic.edu/api/v1/artworks/search?${new URLSearchParams({
             q: phrase, limit: "3", fields: "id,title,artist_display,date_display,image_id,is_public_domain"
         })}`,
@@ -61,7 +64,16 @@ async function fetchResults(source, phrase, signal) {
     return source.parse(data).filter(item => typeof item.title === "string" && item.title.trim());
 }
 
-if (typeof module !== "undefined" && module.exports) module.exports = { SOURCES, fetchResults };
+function matchExplanation(item, phrase, sourceName) {
+    const words = text => text.normalize("NFC").toLowerCase().match(/[\p{L}\p{M}\p{N}]+/gu) || [];
+    const visibleWords = new Set(words(`${item.title} ${item.description}`));
+    const matches = [...new Set(words(phrase))].filter(word => visibleWords.has(word));
+    return matches.length
+        ? `Prompt words in title or details: ${matches.map(word => `“${word}”`).join(", ")}.`
+        : `${sourceName} returned this result; no prompt words appear in the title or details.`;
+}
+
+if (typeof module !== "undefined" && module.exports) module.exports = { SOURCES, fetchResults, matchExplanation };
 
 if (typeof document !== "undefined") {
     const $ = id => document.getElementById(id);
@@ -192,7 +204,8 @@ if (typeof document !== "undefined") {
         body.append(element("p", "card-source", SOURCES[key].name));
         const title = element("h3");
         title.append(externalLink(item.title, item.url));
-        body.append(title, element("p", "card-description", item.description));
+        body.append(title, element("p", "card-description", item.description),
+            element("p", "card-match", matchExplanation(item, phrase, SOURCES[key].name)));
         const actions = element("div", "card-actions");
         const save = element("button", "save-button", favorites.some(saved => saved.source === key && saved.id === item.id) ? "Saved" : "Save");
         save.type = "button";
@@ -217,7 +230,9 @@ if (typeof document !== "undefined") {
         activeController = new AbortController();
         const controller = activeController;
         $("randomPhrase").textContent = phrase;
-        $("ddgLink").href = `https://duckduckgo.com/?${new URLSearchParams({ q: phrase })}`;
+        const searchUrl = `https://duckduckgo.com/?${new URLSearchParams({ q: phrase })}`;
+        $("ddgLink").href = searchUrl;
+        $("heroDdgLink").href = searchUrl;
         $("domainLink").href = `https://domainr.com/?${new URLSearchParams({ q: phrase.replace(/\s/g, "") })}`;
         $("sharePrompt").href = promptUrl(phrase, mode);
         window.history.replaceState(null, "", $("sharePrompt").href);
@@ -251,7 +266,10 @@ if (typeof document !== "undefined") {
                 if (id !== requestId) return;
                 console.error(`Could not load ${SOURCES[key].name}:`, error);
                 const reason = timedOut ? "took too long to respond" : "is unavailable right now";
-                content.replaceChildren(element("p", "empty", `${SOURCES[key].name} ${reason}. Try again or search the web.`));
+                const message = element("p", "empty", `${SOURCES[key].name} ${reason}. Try again or `);
+                const query = new URLSearchParams({ q: `site:${SOURCES[key].searchDomain} ${phrase}` });
+                message.append(externalLink("search the web", `https://duckduckgo.com/?${query}`), ".");
+                content.replaceChildren(message);
             }).finally(() => {
                 clearTimeout(timeout);
                 controller.signal.removeEventListener("abort", abortSource);
