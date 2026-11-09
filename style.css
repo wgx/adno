@@ -21,7 +21,7 @@ button { cursor: pointer; }
 h1 { font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.04; letter-spacing: -.04em; margin: 0 0 10px; }
 .intro > p:not(.eyebrow) { color: #626c60; margin: 0; }
 .prompt { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 14px; margin: 20px auto 16px; }
-.prompt-label { font-size: .7rem; font-weight: 800; letter-spacing: .1em; color: #6a7568; }
+.prompt-label { font-size: .7rem; font-weight: 800; letter-spacing: .1em; color: #626c60; }
 #randomPhrase { font-family: Georgia, serif; font-size: clamp(1.3rem, 3vw, 1.8rem); padding: 12px 20px; background: #e8ebdd; border-radius: 6px; overflow-wrap: anywhere; }
 .primary { border: 0; border-radius: 6px; padding: 15px 20px; background: #263d2e; color: white; font-weight: 700; }
 .primary:hover { background: #3c5944; }

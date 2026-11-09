@@ -1,6 +1,25 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const { SOURCES, fetchResults } = require("../app.js");
+const { SOURCES, fetchResults, matchExplanation } = require("../app.js");
+
+test("card explanations report only whole prompt words visible in card details", () => {
+    assert.equal(
+        matchExplanation({ title: "Ancient maps", description: "An ancient MAP from Paris." }, "Ancient map ancient", "Wikipedia"),
+        "Prompt words in title or details: “ancient”, “map”."
+    );
+    assert.equal(
+        matchExplanation({ title: "Maple trees", description: "A collection." }, "map", "Open Library"),
+        "Open Library returned this result; no prompt words appear in the title or details."
+    );
+    assert.equal(
+        matchExplanation({ title: "CAFÉ", description: "Artwork" }, "cafe\u0301", "Art Institute of Chicago"),
+        "Prompt words in title or details: “café”."
+    );
+    assert.equal(
+        matchExplanation({ title: "A result", description: "Some details." }, "& !", "Wikipedia"),
+        "Wikipedia returned this result; no prompt words appear in the title or details."
+    );
+});
 
 test("source URLs encode the prompt and constrain results", () => {
     for (const source of Object.values(SOURCES)) {
