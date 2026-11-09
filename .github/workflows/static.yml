@@ -22,22 +22,32 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout production site
         uses: actions/checkout@v4
+        with:
+          ref: main
+          path: site
+      - name: Checkout preview branch
+        if: github.ref != 'refs/heads/main'
+        uses: actions/checkout@v4
+        with:
+          path: site/preview
+      - name: Test preview
+        if: github.ref != 'refs/heads/main'
+        working-directory: site/preview
+        run: node --test
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          path: site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
